@@ -1,0 +1,29 @@
+{
+  "source": "artifacts/surface_comparison_20260919/capture_surface_errors.csv",
+  "source_sha256": "2789d728ac300635b90856b016d83cab208a50b6d7e452537325fbeba916ec3e",
+  "population": "surface_comparison_20260919 / ToF observed geometry",
+  "laser_offset_mm": 60,
+  "counts": {
+    "captures_total": 90,
+    "tof_evaluable": 71,
+    "tof_by_yaw": {
+      "0": 25,
+      "30": 25,
+      "60": 21
+    },
+    "tof_at_3m": 0
+  },
+  "outputs": [
+    "error_tof_distancia_yaw.svg",
+    "error_tof_distancia_yaw.pdf",
+    "error_tof_distancia_yaw.png",
+    "zonas_tof_utilizadas.svg",
+    "zonas_tof_utilizadas.pdf",
+    "zonas_tof_utilizadas.png",
+    "distribucion_error_tof_yaw.svg",
+    "distribucion_error_tof_yaw.pdf",
+    "distribucion_error_tof_yaw.png",
+    "zonas_tof_utilizadas_datos.csv",
+    "datos_interactivos.json"
+  ]
+}

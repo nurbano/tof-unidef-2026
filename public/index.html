@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Resultados interactivos de la evaluación del sensor ToF multizona VL53L5CX frente a cajas en robótica de interiores.">
+  <title>5tas Jornadas UNIDEF · Evaluación de un sensor ToF multizona</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <a class="brand" href="#inicio" aria-label="Ir al inicio">
+      <span class="brand-mark" aria-hidden="true">8×8</span>
+      <span>5tas Jornadas UNIDEF</span>
+    </a>
+    <nav aria-label="Secciones">
+      <a href="#escena">Escena</a>
+      <a href="#montaje">Montaje</a>
+      <a href="#metodo">Método</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#alcance">Conclusión</a>
+      <a href="https://www.gtama.com.ar" target="_blank" rel="noopener noreferrer">Grupo TAMA</a>
+    </nav>
+  </header>
+
+  <main id="contenido">
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <p class="eyebrow">Póster científico · 2026</p>
+        <h1>5tas Jornadas UNIDEF</h1>
+        <h2 class="hero-study-title">Evaluación de un sensor ToF multizona para estimar la distancia a cajas en aplicaciones de robótica de interiores</h2>
+        <p class="hero-lead">Evaluamos el VL53L5CX de STMicroelectronics en 90 capturas, seis distancias y tres orientaciones. Hasta 2 m produjo una estimación en todas las tomas; más lejos, la cobertura espacial pasó a ser la principal limitación.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#resultados">Explorar resultados</a>
+          <a class="button secondary" href="#metodo">Ver cómo se midió</a>
+        </div>
+      </div>
+      <div class="kpi-grid" aria-label="Resultados principales">
+        <article class="kpi accent"><strong>12,7 mm</strong><span>Error absoluto medio ToF</span></article>
+        <article class="kpi"><strong>60/60</strong><span>Capturas con estimación hasta 2 m</span></article>
+        <article class="kpi"><strong>11/15</strong><span>Capturas con estimación a 2,5 m</span></article>
+        <article class="kpi"><strong>0/15</strong><span>Capturas con estimación a 3 m</span></article>
+      </div>
+    </section>
+
+    <section class="section" id="escena">
+      <div class="section-heading">
+        <p class="eyebrow">Escena experimental</p>
+        <h2>Una caja ocupa sólo una parte del campo visual</h2>
+        <p>El VL53L5CX entrega 64 distancias en un campo aproximado de 45° × 45°. Al alejar la caja, cada zona cubre una región mayor y puede combinar objeto, piso y fondo.</p>
+      </div>
+
+      <div class="scene-grid">
+        <figure class="panel scene-photo">
+          <div class="image-frame flip-y privacy-crop">
+            <img src="assets/escena_rgb.png" alt="Captura RGB del ensayo: caja de cartón con marcador ArUco, línea central marcada en el piso y punto del láser sobre la caja.">
+          </div>
+          <figcaption>Captura real a 1 m y yaw 0°. El punto rojo corresponde al medidor láser.</figcaption>
+        </figure>
+
+        <div class="panel placement-panel">
+          <h3>Posiciones ensayadas</h3>
+          <div class="distance-track" aria-label="Distancias de 0,5 a 3 metros">
+            <span class="sensor-icon">ToF</span>
+            <div class="track-line"></div>
+            <div class="distance-points">
+              <span style="--p: 0%">0,5</span><span style="--p: 20%">1</span><span style="--p: 40%">1,5</span>
+              <span style="--p: 60%">2</span><span style="--p: 80%">2,5</span><span style="--p: 100%">3 m</span>
+            </div>
+          </div>
+          <div class="yaw-row" aria-label="Orientaciones de la caja">
+            <div><span class="box-shape yaw-0"></span><strong>Yaw 0°</strong></div>
+            <div><span class="box-shape yaw-30"></span><strong>Yaw 30°</strong></div>
+            <div><span class="box-shape yaw-60"></span><strong>Yaw 60°</strong></div>
+          </div>
+          <p class="formula-small">6 distancias × 3 yaw × 5 repeticiones = <strong>90 capturas</strong></p>
+        </div>
+      </div>
+
+      <div class="sensor-data-grid">
+        <figure class="panel data-panel">
+          <div class="image-frame flip-y privacy-crop depth-frame">
+            <img src="assets/escena_depth.png" alt="Mapa de profundidad L515 de la misma escena, con la caja separada del piso y del fondo.">
+          </div>
+          <figcaption>
+            <strong>Depth L515.</strong> La mayor resolución permite reconstruir la caja y las superficies vecinas.
+            <div class="depth-scale" aria-label="Escala de profundidad de cero a cuatro metros; azul oscuro indica menor distancia y amarillo mayor distancia.">
+              <div class="depth-scale-bar"></div>
+              <div class="depth-scale-ticks"><span>0 m · cerca</span><span>1</span><span>2</span><span>3</span><span>4 m · lejos</span></div>
+              <div class="invalid-key"><span></span>Sin dato</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="panel data-panel">
+          <div class="image-frame flip-y tof-frame">
+            <img src="assets/escena_tof_8x8.png" alt="Mapa ToF de baja resolución formado por 8 por 8 zonas de color.">
+          </div>
+          <figcaption>
+            <strong>VL53L5CX.</strong> Cada celda representa una zona; los colores corresponden a distintas profundidades.
+            <div class="depth-scale" aria-label="Escala de profundidad de cero a cuatro metros; azul oscuro indica menor distancia y amarillo mayor distancia.">
+              <div class="depth-scale-bar"></div>
+              <div class="depth-scale-ticks"><span>0 m · cerca</span><span>1</span><span>2</span><span>3</span><span>4 m · lejos</span></div>
+              <div class="invalid-key"><span></span>Sin dato</div>
+            </div>
+          </figcaption>
+        </figure>
+        <article class="panel data-explainer">
+          <div class="explainer-intro">
+            <p class="eyebrow">Cómo mide el VL53L5CX</p>
+            <h3>Del tiempo de los fotones a una distancia por zona</h3>
+            <p>El sensor emite luz infrarroja de 940 nm sobre un campo de aproximadamente 45° × 45°. Una matriz de detectores SPAD registra los tiempos de llegada de los fotones reflejados y el procesamiento interno entrega una distancia para cada una de las 64 regiones angulares.</p>
+          </div>
+
+          <div class="tof-steps" aria-label="Secuencia de medición por tiempo de vuelo directo">
+            <div><span>1</span><p><strong>Emisión</strong>Un pulso infrarrojo ilumina la escena.</p></div>
+            <div><span>2</span><p><strong>Detección</strong>Los SPAD acumulan retornos a distintos tiempos.</p></div>
+            <div><span>3</span><p><strong>Distancia</strong>El retardo del retorno determina la profundidad.</p></div>
+          </div>
+
+          <div class="zone-geometry">
+            <div class="tof-formula"><span>Tiempo de ida y vuelta</span><strong>d = c · Δt / 2</strong></div>
+            <p class="zone-angle"><strong>45° / 8 ≈ 5,6° por zona.</strong> La huella ideal crece casi 10 cm por cada metro de distancia:</p>
+            <div class="footprint-grid" aria-label="Huella angular aproximada de una zona según la distancia">
+              <span><strong>≈ 10 cm</strong>a 1 m</span>
+              <span><strong>≈ 20 cm</strong>a 2 m</span>
+              <span><strong>≈ 29 cm</strong>a 3 m</span>
+            </div>
+            <p class="mixed-return">Si una zona abarca caja, piso y fondo, recibe retornos a diferentes tiempos. En esta campaña se configuró un objetivo por zona y orden <em>closest</em>: se informó el pico válido más cercano.</p>
+          </div>
+
+          <figure class="photon-histogram">
+            <div class="histogram-copy">
+              <p class="eyebrow">Procesamiento interno por zona</p>
+              <h4>Dos superficies pueden producir dos picos</h4>
+              <p>Cada bin reúne los fotones detectados durante una ventana temporal. Un retorno temprano corresponde a una superficie cercana; otro más tardío puede pertenecer al fondo. La posición del pico determina la distancia y su dispersión contribuye a la sigma informada por el sensor.</p>
+            </div>
+
+            <svg viewBox="0 0 760 245" role="img" aria-labelledby="hist-title hist-desc">
+              <title id="hist-title">Histograma conceptual de fotones para una zona que abarca la caja y el fondo</title>
+              <desc id="hist-desc">El primer grupo de barras representa un retorno cercano de la caja y el segundo un retorno tardío del fondo. La configuración closest informa el primer pico válido.</desc>
+              <line class="hist-axis" x1="60" y1="195" x2="735" y2="195"></line>
+              <line class="hist-axis" x1="60" y1="195" x2="60" y2="25"></line>
+              <line class="hist-threshold" x1="60" y1="150" x2="735" y2="150"></line>
+              <text class="hist-small" x="730" y="144" text-anchor="end">umbral de detección</text>
+
+              <g aria-label="Bins del histograma">
+                <rect class="hist-ambient" x="80" y="184" width="18" height="11"></rect>
+                <rect class="hist-ambient" x="106" y="181" width="18" height="14"></rect>
+                <rect class="hist-ambient" x="132" y="185" width="18" height="10"></rect>
+                <rect class="hist-ambient" x="158" y="180" width="18" height="15"></rect>
+                <rect class="hist-ambient" x="184" y="177" width="18" height="18"></rect>
+                <rect class="hist-box" x="210" y="168" width="18" height="27"></rect>
+                <rect class="hist-box" x="236" y="145" width="18" height="50"></rect>
+                <rect class="hist-box" x="262" y="105" width="18" height="90"></rect>
+                <rect class="hist-box" x="288" y="65" width="18" height="130"></rect>
+                <rect class="hist-box" x="314" y="48" width="18" height="147"></rect>
+                <rect class="hist-box" x="340" y="72" width="18" height="123"></rect>
+                <rect class="hist-box" x="366" y="118" width="18" height="77"></rect>
+                <rect class="hist-box" x="392" y="165" width="18" height="30"></rect>
+                <rect class="hist-ambient" x="418" y="180" width="18" height="15"></rect>
+                <rect class="hist-ambient" x="444" y="182" width="18" height="13"></rect>
+                <rect class="hist-ambient" x="470" y="178" width="18" height="17"></rect>
+                <rect class="hist-background" x="496" y="165" width="18" height="30"></rect>
+                <rect class="hist-background" x="522" y="135" width="18" height="60"></rect>
+                <rect class="hist-background" x="548" y="95" width="18" height="100"></rect>
+                <rect class="hist-background" x="574" y="65" width="18" height="130"></rect>
+                <rect class="hist-background" x="600" y="52" width="18" height="143"></rect>
+                <rect class="hist-background" x="626" y="78" width="18" height="117"></rect>
+                <rect class="hist-background" x="652" y="120" width="18" height="75"></rect>
+                <rect class="hist-background" x="678" y="162" width="18" height="33"></rect>
+                <rect class="hist-ambient" x="704" y="180" width="18" height="15"></rect>
+              </g>
+
+              <line class="hist-selection" x1="323" y1="34" x2="323" y2="195"></line>
+              <text class="hist-selected-label" x="323" y="24" text-anchor="middle">objetivo informado: closest</text>
+              <text class="hist-peak-label hist-peak-box" x="323" y="218" text-anchor="middle">caja · retorno temprano</text>
+              <text class="hist-peak-label hist-peak-background" x="609" y="218" text-anchor="middle">fondo · retorno tardío</text>
+              <text class="hist-axis-label" x="400" y="241" text-anchor="middle">Tiempo de llegada Δt  →  distancia</text>
+              <text class="hist-axis-label" x="17" y="112" text-anchor="middle" transform="rotate(-90 17 112)">Fotones detectados</text>
+            </svg>
+
+            <figcaption><strong>Esquema conceptual.</strong> El histograma se procesa dentro del VL53L5CX; el payload entrega distancia, sigma, señal y estado, pero no los bins crudos. Fuente: <a href="https://www.st.com/resource/en/user_manual/um2884-a-guide-to-using-the-vl53l5cx-multizone-timeofflight-ranging-sensor-with-wide-field-of-view-ultra-lite-driver-uld-stmicroelectronics.pdf" target="_blank" rel="noopener noreferrer">STMicroelectronics, UM2884</a>.</figcaption>
+          </figure>
+        </article>
+      </div>
+
+      <div class="mounting-heading" id="montaje">
+        <p class="eyebrow">Instrumentación</p>
+        <h3>Los dos sensores se montaron sobre una referencia mecánica común</h3>
+        <p>El soporte mantuvo próximos el centro de la cámara RGB de la Intel RealSense L515 y el centro del VL53L5CX. La notebook permitió controlar la captura y observar simultáneamente RGB, profundidad y las 64 zonas ToF.</p>
+      </div>
+
+      <div class="mounting-grid">
+        <figure class="panel mounting-photo">
+          <div class="image-frame">
+            <img src="assets/montaje_sensor.jpg" alt="Detalle del montaje sobre trípode: cámara Intel RealSense L515 y módulo ToF VL53L5CX fijados a un soporte mecánico común, frente a la caja de ensayo.">
+          </div>
+          <figcaption><strong>Detalle del montaje.</strong> L515 y VL53L5CX sobre un soporte común fijado al trípode.</figcaption>
+        </figure>
+        <figure class="panel mounting-photo">
+          <div class="image-frame">
+            <img src="assets/montaje_sistema.jpg" alt="Vista general del sistema de adquisición con el conjunto de sensores sobre el trípode, la notebook y la interfaz de captura.">
+          </div>
+          <figcaption><strong>Sistema de adquisición.</strong> Visualización conjunta de RGB, depth L515 y matriz ToF 8×8 durante el ensayo.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section method-section" id="metodo">
+      <div class="section-heading compact">
+        <p class="eyebrow">Método</p>
+        <h2>De la lectura cruda a la distancia comparable</h2>
+      </div>
+
+      <div class="reference-band">
+        <div><span>Referencia experimental</span><strong>Distancia a la primera superficie de la caja</strong></div>
+        <p>Los tres sistemas se compararon sobre la misma magnitud.</p>
+      </div>
+
+      <ol class="method-flow">
+        <li><span>1</span><div><strong>Reconstruir la caja</strong><p>La nube L515 determina su geometría y las zonas ToF candidatas.</p></div></li>
+        <li><span>2</span><div><strong>Separar superficies</strong><p>Se conservan lecturas compatibles con la caja y con ninguna otra superficie.</p></div></li>
+        <li><span>3</span><div><strong>Agregar en el tiempo</strong><p>Se obtiene la mediana de 30 cuadros para cada zona.</p></div></li>
+        <li><span>4</span><div><strong>Estimar la superficie</strong><p>La mediana entre zonas se proyecta sobre el eje de avance.</p></div></li>
+      </ol>
+
+      <div class="experiment-strip">
+        <span><strong>172 800</strong> lecturas ToF</span>
+        <span><strong>348 × 285 × 440 mm</strong> caja</span>
+        <span><strong>Bosch GLM 30-23</strong> referencia</span>
+        <span><strong>L515 + RGB–ArUco</strong> comparación</span>
+      </div>
+    </section>
+
+    <section class="section" id="resultados">
+      <div class="section-heading">
+        <p class="eyebrow">Resultados interactivos</p>
+        <h2>Error por distancia, orientación y sistema</h2>
+        <p>Seleccione un sistema y un yaw. Cada punto representa una captura y la línea une las medias por distancia. El detalle se actualiza al elegir un punto.</p>
+      </div>
+
+      <div class="chart-controls" aria-label="Controles del gráfico">
+        <fieldset>
+          <legend>Sistema</legend>
+          <button class="chip active" type="button" data-system="tof">VL53L5CX</button>
+          <button class="chip" type="button" data-system="l515">L515</button>
+          <button class="chip" type="button" data-system="rgb">RGB–ArUco</button>
+        </fieldset>
+        <fieldset>
+          <legend>Orientación</legend>
+          <button class="chip active" type="button" data-yaw="all">Todos</button>
+          <button class="chip" type="button" data-yaw="0">0°</button>
+          <button class="chip" type="button" data-yaw="30">30°</button>
+          <button class="chip" type="button" data-yaw="60">60°</button>
+        </fieldset>
+      </div>
+
+      <div class="interactive-layout">
+        <div class="panel chart-panel">
+          <svg id="error-chart" viewBox="0 0 920 460" role="img" aria-labelledby="chart-title chart-desc">
+            <title id="chart-title">Error con signo frente a distancia</title>
+            <desc id="chart-desc">Gráfico interactivo de capturas y medias por distancia.</desc>
+          </svg>
+        </div>
+        <aside class="panel detail-panel" id="point-detail" aria-live="polite">
+          <p class="eyebrow">Detalle</p>
+          <h3>Cargando datos…</h3>
+        </aside>
+      </div>
+
+      <div class="results-grid">
+        <figure class="panel result-figure">
+          <img src="assets/zonas_tof_utilizadas.png" alt="Gráfico de zonas ToF utilizadas por captura frente a distancia, separado por yaw.">
+          <figcaption>La caída de zonas útiles explica la pérdida de disponibilidad a larga distancia.</figcaption>
+        </figure>
+        <article class="panel interpretation">
+          <p class="eyebrow">Lectura conjunta</p>
+          <h3>El límite apareció antes en la cobertura que en el error</h3>
+          <ul>
+            <li>Hasta 2 m: estimación en las 60 capturas.</li>
+            <li>A 2,5 m: 11 de 15 capturas.</li>
+            <li>A 3 m: ninguna captura estimable.</li>
+            <li>Al aumentar el yaw creció la dispersión del error.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section limits-section" id="alcance">
+      <div class="section-heading compact">
+        <p class="eyebrow">Conclusión</p>
+        <h2>Información de distancia útil para la fusión sensorial</h2>
+      </div>
+      <div class="limits-grid">
+        <article><h3>Resultado principal</h3><p>El VL53L5CX estimó la primera superficie de la caja con errores del orden del centímetro y cobertura completa hasta 2 m.</p></article>
+        <article><h3>Límite observado</h3><p>Al aumentar la distancia disminuyó la cantidad de zonas cubiertas por la caja; a 3 m no se obtuvo una estimación.</p></article>
+        <article><h3>Continuación</h3><p>Integrar la localización RGB con el ToF de baja resolución y evaluar la fusión en nuevas escenas.</p></article>
+      </div>
+      <div class="funding-note">
+        <strong>PID UTN HAASEC899</strong>
+        <span>“Fusión de imágenes RGB y sensores de profundidad bajo costo mediante deep learning para la estimación de profundidad en robótica de interiores”. Financiado por la Universidad Tecnológica Nacional. Se agradece a la UTN Facultad Regional Haedo por las instalaciones y el apoyo brindado.</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>N. Urbano Pintos · P. Aquino · N. Pocoví</strong></p>
+    <p><a href="https://www.gtama.com.ar" target="_blank" rel="noopener noreferrer"><strong>Grupo TAMA</strong></a> · Universidad Tecnológica Nacional · Facultad Regional Haedo</p>
+    <p><a href="mailto:nurbano@frh.utn.edu.ar">nurbano@frh.utn.edu.ar</a></p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
