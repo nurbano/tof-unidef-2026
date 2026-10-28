@@ -137,6 +137,7 @@
               <p>Cada bin reúne los fotones detectados durante una ventana temporal. Un retorno temprano corresponde a una superficie cercana; otro más tardío puede pertenecer al fondo. La posición del pico determina la distancia y su dispersión contribuye a la sigma informada por el sensor.</p>
             </div>
 
+            <div class="histogram-scroll" tabindex="0" aria-label="Histograma desplazable horizontalmente">
             <svg viewBox="0 0 760 245" role="img" aria-labelledby="hist-title hist-desc">
               <title id="hist-title">Histograma conceptual de fotones para una zona que abarca la caja y el fondo</title>
               <desc id="hist-desc">El primer grupo de barras representa un retorno cercano de la caja y el segundo un retorno tardío del fondo. La configuración closest informa el primer pico válido.</desc>
@@ -180,6 +181,7 @@
               <text class="hist-axis-label" x="400" y="241" text-anchor="middle">Tiempo de llegada Δt  →  distancia</text>
               <text class="hist-axis-label" x="17" y="112" text-anchor="middle" transform="rotate(-90 17 112)">Fotones detectados</text>
             </svg>
+            </div>
 
             <figcaption><strong>Esquema conceptual.</strong> El histograma se procesa dentro del VL53L5CX; el payload entrega distancia, sigma, señal y estado, pero no los bins crudos. Fuente: <a href="https://www.st.com/resource/en/user_manual/um2884-a-guide-to-using-the-vl53l5cx-multizone-timeofflight-ranging-sensor-with-wide-field-of-view-ultra-lite-driver-uld-stmicroelectronics.pdf" target="_blank" rel="noopener noreferrer">STMicroelectronics, UM2884</a>.</figcaption>
           </figure>
@@ -272,7 +274,9 @@
 
       <div class="results-grid">
         <figure class="panel result-figure">
-          <img src="assets/zonas_tof_utilizadas.png" alt="Gráfico de zonas ToF utilizadas por captura frente a distancia, separado por yaw.">
+          <div class="result-chart-scroll" tabindex="0" aria-label="Gráfico desplazable horizontalmente">
+            <img src="assets/zonas_tof_utilizadas.png" alt="Gráfico de zonas ToF utilizadas por captura frente a distancia, separado por yaw.">
+          </div>
           <figcaption>La caída de zonas útiles explica la pérdida de disponibilidad a larga distancia.</figcaption>
         </figure>
         <article class="panel interpretation">

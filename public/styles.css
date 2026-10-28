@@ -126,7 +126,8 @@ figcaption { padding: 1rem 1.1rem 1.15rem; color: var(--muted); font-size: .9rem
 .photon-histogram { grid-column: 1 / -1; display: grid; grid-template-columns: .72fr 1.28fr; gap: clamp(1.2rem, 3vw, 2.5rem); align-items: center; padding-top: 1.5rem; border-top: 1px solid var(--line); }
 .histogram-copy h4 { margin: .2rem 0 .6rem; color: var(--navy-dark); font-size: 1.35rem; line-height: 1.15; }
 .histogram-copy > p:last-child { margin: 0; color: var(--muted); font-size: .86rem; }
-.photon-histogram svg { width: 100%; min-width: 0; overflow: visible; }
+.histogram-scroll { min-width: 0; overflow-x: auto; overscroll-behavior-inline: contain; }
+.photon-histogram svg { display: block; width: 100%; min-width: 0; overflow: visible; }
 .photon-histogram figcaption { grid-column: 1 / -1; padding: 0; font-size: .74rem; }
 .hist-axis { stroke: #8f99a3; stroke-width: 1.5; }
 .hist-threshold { stroke: #aeb7c0; stroke-width: 1.2; stroke-dasharray: 5 5; }
@@ -178,11 +179,12 @@ figcaption { padding: 1rem 1.1rem 1.15rem; color: var(--muted); font-size: .9rem
 .chip.active { color: white; background: var(--navy); border-color: var(--navy); }
 .interactive-layout { display: grid; grid-template-columns: minmax(0, 1fr) 18rem; gap: 1.25rem; }
 .chart-panel { padding: .7rem; }
-#error-chart { width: 100%; height: auto; min-height: 23rem; }
+#error-chart { display: block; width: 100%; height: auto; min-height: 0; }
 .detail-panel { padding: 1.4rem; }
 .detail-panel h3 { margin: .2rem 0 .6rem; }
 .detail-value { font-size: 2rem; color: var(--orange); font-weight: 800; }
 .results-grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 1.5rem; margin-top: 1.5rem; align-items: stretch; }
+.result-chart-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
 .result-figure img { width: 100%; }
 .interpretation { padding: 1.5rem; }
 .interpretation h3 { font-size: 1.55rem; margin: .2rem 0 .8rem; }
@@ -227,6 +229,7 @@ footer p { margin: .25rem; }
 }
 
 @media (max-width: 600px) {
+  html { scroll-behavior: auto; }
   .site-header { padding: .7rem 1rem; }
   .brand span:last-child { display: none; }
   .hero { padding-top: 3rem; }
@@ -236,6 +239,38 @@ footer p { margin: .25rem; }
   .funding-note { grid-template-columns: 1fr; }
   .chart-controls fieldset { width: 100%; }
   .chip { margin-bottom: .35rem; }
+  .section { padding-left: 1rem; padding-right: 1rem; }
+  .chart-panel { padding: .35rem; }
+  .chart-label { font-size: 20px; }
+  .chart-title { font-size: 22px; }
+  .chart-point { r: 8; stroke-width: 2; }
+  .chart-point.selected { r: 11; stroke-width: 3; }
+  .chart-point-group:hover .chart-point, .chart-point-group:focus .chart-point { r: 11; }
+  .histogram-scroll,
+  .result-chart-scroll {
+    margin-inline: -.2rem;
+    padding-bottom: .45rem;
+    scrollbar-color: var(--orange) #e6ebef;
+    scrollbar-width: thin;
+  }
+  .histogram-scroll::after,
+  .result-chart-scroll::after {
+    content: "Deslizá hacia los lados para recorrer el gráfico";
+    position: sticky;
+    left: .5rem;
+    display: block;
+    width: max-content;
+    margin: .35rem .5rem 0;
+    color: var(--muted);
+    font-size: .75rem;
+    font-weight: 700;
+  }
+  .photon-histogram svg { width: 700px; max-width: none; }
+  .hist-small,
+  .hist-axis-label,
+  .hist-peak-label { font-size: 15px; }
+  .hist-selected-label { font-size: 16px; }
+  .result-figure img { width: 760px; max-width: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

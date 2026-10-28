@@ -9,6 +9,7 @@ const systems = {
 };
 
 const distances = [0.5, 1, 1.5, 2, 2.5, 3];
+const mobileChartQuery = window.matchMedia("(max-width: 600px)");
 
 function element(name, attributes = {}, text = "") {
   const node = document.createElementNS(SVG_NS, name);
@@ -25,9 +26,13 @@ function renderChart() {
   const svg = document.querySelector("#error-chart");
   svg.querySelectorAll(":scope > :not(title):not(desc)").forEach((node) => node.remove());
 
-  const width = 920;
-  const height = 460;
-  const margin = { top: 32, right: 32, bottom: 68, left: 78 };
+  const isMobile = mobileChartQuery.matches;
+  const width = isMobile ? 500 : 920;
+  const height = isMobile ? 480 : 460;
+  const margin = isMobile
+    ? { top: 28, right: 16, bottom: 92, left: 74 }
+    : { top: 32, right: 32, bottom: 68, left: 78 };
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
   const yMin = -60;
@@ -78,7 +83,7 @@ function renderChart() {
       class: "chart-point-group", tabindex: "0", role: "button",
       "aria-label": `${system.label}, ${row.distance_m} metros, yaw ${row.yaw_deg} grados, error ${error.toFixed(1)} milímetros`,
     });
-    const hit = element("circle", { cx, cy, r: 15, class: "chart-hit" });
+    const hit = element("circle", { cx, cy, r: isMobile ? 22 : 15, class: "chart-hit" });
     const circle = element("circle", {
       cx, cy, r: 6, fill: system.color,
       class: `chart-point${row.attempt_id === state.selectedAttempt ? " selected" : ""}`,
@@ -111,7 +116,7 @@ function renderChart() {
       const total = rowsAtDistance.length;
       svg.append(element("text", {
         x: xScale(distance), y: height - margin.bottom + 48, "text-anchor": "middle",
-        fill: available < total ? "#BE560D" : "#5D6670", "font-size": "12", "font-weight": available < total ? "700" : "400",
+        fill: available < total ? "#BE560D" : "#5D6670", "font-size": isMobile ? "18" : "12", "font-weight": available < total ? "700" : "400",
       }, `${available}/${total}`));
     });
   }
@@ -148,6 +153,8 @@ document.querySelectorAll("[data-yaw]").forEach((button) => {
   });
 });
 
+renderChart();
+
 fetch("assets/datos_interactivos.json")
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -161,3 +168,7 @@ fetch("assets/datos_interactivos.json")
     const detail = document.querySelector("#point-detail");
     detail.innerHTML = `<h3>No se pudieron cargar los datos</h3><p>${error.message}. Abra el sitio mediante un servidor HTTP local.</p>`;
   });
+
+mobileChartQuery.addEventListener("change", () => {
+  if (state.data.length) renderChart();
+});
