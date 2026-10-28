@@ -274,9 +274,19 @@
 
       <div class="results-grid">
         <figure class="panel result-figure">
-          <div class="result-chart-scroll" tabindex="0" aria-label="Gráfico desplazable horizontalmente">
-            <img src="assets/zonas_tof_utilizadas.png" alt="Gráfico de zonas ToF utilizadas por captura frente a distancia, separado por yaw.">
+          <div class="coverage-heading">
+            <h3>La cantidad de zonas útiles cae con la distancia</h3>
+            <div class="coverage-legend" aria-label="Leyenda">
+              <span><i class="yaw-zero"></i>Yaw 0°</span>
+              <span><i class="yaw-thirty"></i>Yaw 30°</span>
+              <span><i class="yaw-sixty"></i>Yaw 60°</span>
+            </div>
           </div>
+          <svg id="coverage-chart" viewBox="0 0 920 440" role="img" aria-labelledby="coverage-title coverage-desc">
+            <title id="coverage-title">Cantidad de zonas ToF utilizadas por captura frente a distancia</title>
+            <desc id="coverage-desc">Las capturas individuales y sus medias muestran una disminución de las zonas utilizadas al aumentar la distancia.</desc>
+          </svg>
+          <p class="coverage-callout"><strong>A 3 m:</strong> 0 zonas útiles en las 15 capturas.</p>
           <figcaption>La caída de zonas útiles explica la pérdida de disponibilidad a larga distancia.</figcaption>
         </figure>
         <article class="panel interpretation">

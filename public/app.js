@@ -22,6 +22,86 @@ function average(values) {
   return values.reduce((sum, value) => sum + value, 0) / values.length;
 }
 
+function appendCoverageMarker(svg, yaw, x, y, color) {
+  let marker;
+  if (yaw === 30) {
+    marker = element("rect", { x: x - 7, y: y - 7, width: 14, height: 14 });
+  } else if (yaw === 60) {
+    marker = element("polygon", { points: `${x},${y - 9} ${x - 8},${y + 7} ${x + 8},${y + 7}` });
+  } else {
+    marker = element("circle", { cx: x, cy: y, r: 7 });
+  }
+  marker.setAttribute("fill", color);
+  marker.setAttribute("class", "coverage-mean");
+  svg.append(marker);
+}
+
+function renderCoverageChart() {
+  const svg = document.querySelector("#coverage-chart");
+  if (!svg) return;
+  svg.querySelectorAll(":scope > :not(title):not(desc)").forEach((node) => node.remove());
+
+  const isMobile = mobileChartQuery.matches;
+  const width = isMobile ? 500 : 920;
+  const height = isMobile ? 455 : 440;
+  const margin = isMobile
+    ? { top: 18, right: 18, bottom: 72, left: 76 }
+    : { top: 18, right: 32, bottom: 70, left: 82 };
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  const xScale = (distance) => margin.left + ((distance - 0.5) / 2.5) * innerWidth;
+  const yScale = (value) => margin.top + ((25.5 - value) / 26) * innerHeight;
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+  [0, 5, 10, 15, 20, 25].forEach((tick) => {
+    const y = yScale(tick);
+    svg.append(element("line", { x1: margin.left, y1: y, x2: width - margin.right, y2: y, class: "chart-grid" }));
+    svg.append(element("text", { x: margin.left - 12, y: y + 5, "text-anchor": "end", class: "chart-label" }, String(tick)));
+  });
+
+  distances.forEach((distance) => {
+    const x = xScale(distance);
+    svg.append(element("text", { x, y: height - margin.bottom + 29, "text-anchor": "middle", class: "chart-label" }, String(distance).replace(".", ",")));
+  });
+
+  svg.append(element("line", { x1: margin.left, y1: margin.top, x2: margin.left, y2: height - margin.bottom, class: "chart-axis" }));
+  svg.append(element("line", { x1: margin.left, y1: height - margin.bottom, x2: width - margin.right, y2: height - margin.bottom, class: "chart-axis" }));
+  svg.append(element("text", { x: margin.left + innerWidth / 2, y: height - 17, "text-anchor": "middle", class: "chart-title" }, "Distancia nominal (m)"));
+  svg.append(element("text", {
+    x: isMobile ? 22 : 23, y: margin.top + innerHeight / 2, "text-anchor": "middle",
+    class: "chart-title", transform: `rotate(-90 ${isMobile ? 22 : 23} ${margin.top + innerHeight / 2})`,
+  }, "Zonas utilizadas por captura"));
+
+  const yawStyles = {
+    0: { color: "#173F73", dash: "" },
+    30: { color: "#BE560D", dash: "12 8" },
+    60: { color: "#1B8A82", dash: "3 8" },
+  };
+  [0, 30, 60].forEach((yaw) => {
+    const style = yawStyles[yaw];
+    const meanPoints = [];
+    distances.forEach((distance) => {
+      const rows = state.data.filter((row) => row.yaw_deg === yaw && row.distance_m === distance);
+      if (!rows.length) return;
+      const x = xScale(distance);
+      rows.forEach((row) => {
+        svg.append(element("circle", {
+          cx: x + (row.repetition - 3) * (isMobile ? 3.5 : 5),
+          cy: yScale(row.tof_observed_zones), r: isMobile ? 4.8 : 5.5,
+          fill: style.color, class: "coverage-sample",
+        }));
+      });
+      meanPoints.push([x, yScale(average(rows.map((row) => row.tof_observed_zones)))]);
+    });
+    if (!meanPoints.length) return;
+    svg.append(element("polyline", {
+      points: meanPoints.map(([x, y]) => `${x},${y}`).join(" "),
+      stroke: style.color, "stroke-dasharray": style.dash, class: "coverage-line",
+    }));
+    meanPoints.forEach(([x, y]) => appendCoverageMarker(svg, yaw, x, y, style.color));
+  });
+}
+
 function renderChart() {
   const svg = document.querySelector("#error-chart");
   svg.querySelectorAll(":scope > :not(title):not(desc)").forEach((node) => node.remove());
@@ -154,6 +234,7 @@ document.querySelectorAll("[data-yaw]").forEach((button) => {
 });
 
 renderChart();
+renderCoverageChart();
 
 fetch("assets/datos_interactivos.json")
   .then((response) => {
@@ -163,6 +244,7 @@ fetch("assets/datos_interactivos.json")
   .then((data) => {
     state.data = data;
     renderChart();
+    renderCoverageChart();
   })
   .catch((error) => {
     const detail = document.querySelector("#point-detail");
@@ -170,5 +252,6 @@ fetch("assets/datos_interactivos.json")
   });
 
 mobileChartQuery.addEventListener("change", () => {
-  if (state.data.length) renderChart();
+  renderChart();
+  renderCoverageChart();
 });

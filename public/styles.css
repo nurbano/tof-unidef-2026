@@ -184,8 +184,19 @@ figcaption { padding: 1rem 1.1rem 1.15rem; color: var(--muted); font-size: .9rem
 .detail-panel h3 { margin: .2rem 0 .6rem; }
 .detail-value { font-size: 2rem; color: var(--orange); font-weight: 800; }
 .results-grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 1.5rem; margin-top: 1.5rem; align-items: stretch; }
-.result-chart-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
-.result-figure img { width: 100%; }
+.coverage-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.2rem 1.2rem .25rem; }
+.coverage-heading h3 { max-width: 23ch; margin: 0; font-size: 1.35rem; line-height: 1.12; }
+.coverage-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .65rem 1rem; color: var(--muted); font-size: .8rem; font-weight: 700; }
+.coverage-legend span { display: inline-flex; align-items: center; gap: .38rem; white-space: nowrap; }
+.coverage-legend i { display: inline-block; width: 1.7rem; height: .22rem; background: currentColor; }
+.coverage-legend .yaw-zero { color: var(--navy); }
+.coverage-legend .yaw-thirty { color: var(--orange); background: repeating-linear-gradient(90deg, currentColor 0 .48rem, transparent .48rem .7rem); }
+.coverage-legend .yaw-sixty { color: var(--teal); background: repeating-linear-gradient(90deg, currentColor 0 .18rem, transparent .18rem .38rem); }
+#coverage-chart { display: block; width: 100%; height: auto; }
+.coverage-line { fill: none; stroke-width: 4; }
+.coverage-sample { opacity: .32; }
+.coverage-mean { stroke: white; stroke-width: 2; }
+.coverage-callout { width: fit-content; margin: -.25rem 1.2rem .5rem auto; padding: .5rem .75rem; border-radius: .55rem; color: #9d4208; background: var(--orange-light); font-size: .85rem; }
 .interpretation { padding: 1.5rem; }
 .interpretation h3 { font-size: 1.55rem; margin: .2rem 0 .8rem; }
 .interpretation ul { padding-left: 1.2rem; }
@@ -246,15 +257,13 @@ footer p { margin: .25rem; }
   .chart-point { r: 8; stroke-width: 2; }
   .chart-point.selected { r: 11; stroke-width: 3; }
   .chart-point-group:hover .chart-point, .chart-point-group:focus .chart-point { r: 11; }
-  .histogram-scroll,
-  .result-chart-scroll {
+  .histogram-scroll {
     margin-inline: -.2rem;
     padding-bottom: .45rem;
     scrollbar-color: var(--orange) #e6ebef;
     scrollbar-width: thin;
   }
-  .histogram-scroll::after,
-  .result-chart-scroll::after {
+  .histogram-scroll::after {
     content: "Deslizá hacia los lados para recorrer el gráfico";
     position: sticky;
     left: .5rem;
@@ -270,7 +279,10 @@ footer p { margin: .25rem; }
   .hist-axis-label,
   .hist-peak-label { font-size: 15px; }
   .hist-selected-label { font-size: 16px; }
-  .result-figure img { width: 760px; max-width: none; }
+  .coverage-heading { display: block; padding: 1rem .8rem .15rem; }
+  .coverage-heading h3 { max-width: none; font-size: 1.15rem; }
+  .coverage-legend { justify-content: flex-start; gap: .55rem .8rem; margin-top: .8rem; font-size: .76rem; }
+  .coverage-callout { margin: -.15rem .8rem .35rem; font-size: .8rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
