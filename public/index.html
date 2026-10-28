@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Resultados interactivos de la evaluación del sensor ToF multizona VL53L5CX frente a cajas en robótica de interiores.">
   <title>5tas Jornadas UNIDEF · Evaluación de un sensor ToF multizona</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20261028-4">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -286,6 +286,7 @@
             <title id="coverage-title">Cantidad de zonas ToF utilizadas por captura frente a distancia</title>
             <desc id="coverage-desc">Las capturas individuales y sus medias muestran una disminución de las zonas utilizadas al aumentar la distancia.</desc>
           </svg>
+          <img class="coverage-fallback" src="assets/zonas_tof_utilizadas.png" alt="Gráfico de respaldo con las zonas ToF utilizadas por captura frente a distancia, separado por yaw.">
           <p class="coverage-callout"><strong>A 3 m:</strong> 0 zonas útiles en las 15 capturas.</p>
           <figcaption>La caída de zonas útiles explica la pérdida de disponibilidad a larga distancia.</figcaption>
         </figure>
@@ -325,6 +326,6 @@
     <p><a href="mailto:nurbano@frh.utn.edu.ar">nurbano@frh.utn.edu.ar</a></p>
   </footer>
 
-  <script src="app.js" defer></script>
+  <script src="app.js?v=20261028-4" defer></script>
 </body>
 </html>

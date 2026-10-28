@@ -100,6 +100,8 @@ function renderCoverageChart() {
     }));
     meanPoints.forEach(([x, y]) => appendCoverageMarker(svg, yaw, x, y, style.color));
   });
+  const figure = svg.closest(".result-figure");
+  if (state.data.length && figure) figure.classList.add("coverage-ready");
 }
 
 function renderChart() {
@@ -236,7 +238,7 @@ document.querySelectorAll("[data-yaw]").forEach((button) => {
 renderChart();
 renderCoverageChart();
 
-fetch("assets/datos_interactivos.json")
+fetch("assets/datos_interactivos.json?v=20261028-4")
   .then((response) => {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     return response.json();

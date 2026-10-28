@@ -192,7 +192,10 @@ figcaption { padding: 1rem 1.1rem 1.15rem; color: var(--muted); font-size: .9rem
 .coverage-legend .yaw-zero { color: var(--navy); }
 .coverage-legend .yaw-thirty { color: var(--orange); background: repeating-linear-gradient(90deg, currentColor 0 .48rem, transparent .48rem .7rem); }
 .coverage-legend .yaw-sixty { color: var(--teal); background: repeating-linear-gradient(90deg, currentColor 0 .18rem, transparent .18rem .38rem); }
-#coverage-chart { display: block; width: 100%; height: auto; }
+#coverage-chart { display: none; width: 100%; height: auto; }
+.coverage-fallback { display: block; width: 100%; height: auto; }
+.result-figure.coverage-ready #coverage-chart { display: block; }
+.result-figure.coverage-ready .coverage-fallback { display: none; }
 .coverage-line { fill: none; stroke-width: 4; }
 .coverage-sample { opacity: .32; }
 .coverage-mean { stroke: white; stroke-width: 2; }
